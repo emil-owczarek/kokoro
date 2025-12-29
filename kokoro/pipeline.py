@@ -18,6 +18,8 @@ ALIASES = {
     'pt-br': 'p',
     'ja': 'j',
     'zh': 'z',
+    'pl': 'l',
+    'polish': 'l',
 }
 
 LANG_CODES = dict(
@@ -37,6 +39,9 @@ LANG_CODES = dict(
 
     # pip install misaki[zh]
     z='Mandarin Chinese',
+
+    # pip install misaki[pl]
+    l='Polish',
 )
 
 class KPipeline:
@@ -137,6 +142,14 @@ class KPipeline:
                 )
             except ImportError:
                 logger.error("You need to `pip install misaki[zh]` to use lang_code='z'")
+                raise
+        elif lang_code == 'l':
+            try:
+                from misaki import pl
+                self.g2p = pl.PLG2P()
+                logger.info("Polish G2P initialized successfully")
+            except ImportError:
+                logger.error("You need to `pip install misaki[pl]` to use lang_code='l'")
                 raise
         else:
             language = LANG_CODES[lang_code]
